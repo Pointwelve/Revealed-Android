@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pointwelve.revealed">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".RevealedApp"
         android:allowBackup="false"
@@ -16,6 +16,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.auth0.android.provider.RedirectActivity"
+            tools:node="replace">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/com_auth0_domain"
+                    android:pathPrefix="/android/${applicationId}/callback"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

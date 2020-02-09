@@ -12,7 +12,6 @@ import dagger.multibindings.IntoMap
 @Suppress("unused")
 @Module
 abstract class ViewModelModule {
-
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel::class)
