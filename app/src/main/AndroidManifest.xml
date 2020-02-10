@@ -30,7 +30,7 @@
 
                 <data
                     android:host="@string/com_auth0_domain"
-                    android:pathPrefix="/android/${applicationId}/callback"
+                    android:pathPrefix="/android/com.pointwelve.app.revealed/callback"
                     android:scheme="https" />
             </intent-filter>
         </activity>
