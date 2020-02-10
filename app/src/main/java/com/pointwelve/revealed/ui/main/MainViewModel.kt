@@ -10,6 +10,7 @@ import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
+import com.pointwelve.revealed.R
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,6 +38,8 @@ class MainViewModel @Inject constructor(private val account: Auth0) : ViewModel(
         }
 
         WebAuthProvider.login(account)
+            .withScope("openid profile offline_access email")
+            .withAudience("https://${activity.getString(R.string.com_auth0_domain)}/userinfo")
             .start(activity, authCallback)
     }
 }

@@ -34,10 +34,6 @@ class MainFragment : Fragment(), Injectable {
         btnLogin.setOnClickListener {
             mainViewModel.login(this.requireActivity())
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
         mainViewModel.authLiveData.observe(this, Observer { isLoggedIn ->
 
