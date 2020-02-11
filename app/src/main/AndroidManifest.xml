@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="@string/com_auth0_domain"
+                    android:host="pointwelve.au.auth0.com"
                     android:pathPrefix="/android/com.pointwelve.app.revealed/callback"
                     android:scheme="https" />
             </intent-filter>
