@@ -10,12 +10,14 @@ import com.auth0.android.authentication.AuthenticationException
 import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
+import com.pointwelve.revealed.AppExecutors
 import com.pointwelve.revealed.R
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val account: Auth0) : ViewModel() {
+class MainViewModel @Inject constructor(private val account: Auth0,
+                                        private val appExecutors: AppExecutors) : ViewModel() {
     val authLiveData = MutableLiveData<Boolean>()
 
     fun login(activity: Activity) = viewModelScope.launch {
@@ -33,7 +35,8 @@ class MainViewModel @Inject constructor(private val account: Auth0) : ViewModel(
 
             override fun onSuccess(credentials: Credentials) {
                 //succeeded!
-                authLiveData.value = true
+                appExecutors.mainThread().execute { authLiveData.value = true }
+
             }
         }
 

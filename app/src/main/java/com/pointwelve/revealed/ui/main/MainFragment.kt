@@ -35,7 +35,7 @@ class MainFragment : Fragment(), Injectable {
             mainViewModel.login(this.requireActivity())
         }
 
-        mainViewModel.authLiveData.observe(this, Observer { isLoggedIn ->
+        mainViewModel.authLiveData.observe(viewLifecycleOwner, Observer { isLoggedIn ->
 
             this.view?.let {
                 Snackbar.make(it, "User is logged in -> $isLoggedIn", Snackbar.LENGTH_SHORT)
