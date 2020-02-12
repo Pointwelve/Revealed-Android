@@ -7,6 +7,16 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.pointwelve.revealed.ui.main.MainFragment"
-        tools:layout="@layout/main_fragment">
+        tools:layout="@layout/main_fragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.pointwelve.revealed.ui.post.PostFragment"
+        tools:layout="@layout/post_fragment"
+        android:label="PostFragment" />
 </navigation>
