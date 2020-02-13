@@ -47,6 +47,9 @@ android {
     lintOptions {
         lintConfig rootProject.file('lint.xml')
     }
+    apollo {
+        generateKotlinModels.set(true) // or false for Java models
+    }
 }
 
 jacoco {
@@ -80,6 +83,11 @@ dependencies {
     implementation deps.auth0
 
     implementation deps.apollo.runtime
+
+    compileOnly deps.jetbrains_annotations
+    testCompileOnly deps.jetbrains_annotations
+
+    implementation deps.okhttp_logging_interceptor
 
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler

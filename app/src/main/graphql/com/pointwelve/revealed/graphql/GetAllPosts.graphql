@@ -1,0 +1,11 @@
+query getAllPost($first: Int, $commentFirst: String) {
+  getAllPosts(first: $first, after: $commentFirst) {
+    edges {
+        ...PostDetail
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
