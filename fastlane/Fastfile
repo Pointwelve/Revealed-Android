@@ -16,7 +16,85 @@
 default_platform(:android)
 
 platform :android do
+  desc '⚙️ Encrypt configuration using `gpg`. Default directory is `Resources/Configurations`.'\
+       'Recommended to encrypt any secrets e.g **API_KEYS, configuration json/plist** to avoid checking in these file in git'\
+       'By using gpg, we can encrypt any files with a **passphrase** and it will be in `.gpg` binary format.'\
+       'User is able to use the decrypt the files by providing a passphrase using gpg". '\
+       'You can refer to the `encrypt_configurations` method on how to encrypt the files. '\
+       'e.g . `gpg --batch --yes --passphrase YOUR_PASSPHRASE --output \"YOUR_INPUT_FILE\" -c \"YOUR_OUTPUT_FILE_.GPG\`'
+  lane :encrypt_configs do
+    encrypt_configurations
+  end
+
+  desc '⚙️ Decrypt configuration using `gpg`. Default directory is `Resources/Configurations`.'\
+  'By using gpg, we can decrypt all `.gpg` files by providing a passphrase to it.'\
+  'The decrypt_configs lane will be run on every setup lane to enable initial setup.'\
+  'You can refer to the `decrypt_configurations` method on how to encrypt the files.'\
+  'e.g . `gpg --batch --yes --passphrase YOUR_PASSPHRASE --output \"YOUR_INPUT_FILE.GPG\" --decrypt \"YOUR_OUTPUT_FILE\`'
+  lane :decrypt_configs do
+    decrypt_configurations
+  end
+
   desc "⚙️ Setup dependencies and tools to get ready for development."
   lane :setup do
+    setup
   end
+
+  desc "⚙️ build and test"
+  lane :build do
+    decrypt_configurations
+    gradle(task: "fullCoverageReport")
+  end
+
+  desc "🚀 Download graphql schema"
+  lane :download_schema do |options|
+    token = options[:token] || ENV['GRAPHQL_TOKEN']
+    end_point = options[:end_point] || ENV['GRAPHQL_ENDPOINT']
+    # Dir.chdir("..") do
+    #   sh("apollo schema:download --endpoint='#{end_point}' --header='Authorization: #{token}'")
+    #   sh("mv schema.json Revealed/GraphQL/schema.json")
+      
+    #   script_path="Carthage/Checkouts/apollo-ios/scripts"
+    #   Dir.chdir("Revealed") do
+    #     # Generate API
+    #     sh("../#{script_path}/run-bundled-codegen.sh codegen:generate --target=swift --includes=./**/GraphQL/*.graphql --localSchemaFile='GraphQL/schema.json' GraphQL/GraphQL.generated.swift")
+    #   end
+    # end
+  end
+
+  def encrypt_configurations
+    if is_ci?
+      UI.message("Getting encryption paraphrase from environment variable:..")
+      passphrase = ENV["UNICORN"]
+    else
+      UI.message("Getting encryption paraphrase from prompt:..")
+      passphrase = prompt(text: "Paraphrase to decrypt configs: ")
+    end
+
+    Dir.chdir("..") do
+      constant_path = "app/src/main/res/values/constant.xml"
+      sh("gpg --batch --yes --passphrase #{passphrase} --output \"Configurations/fake-unicorn.gpg\" -c \"#{constant_path}\"", log: false)
+    end
+  end
+
+  def decrypt_configurations
+    if is_ci?
+      UI.message("Getting encryption paraphrase from environment variable:..")
+      passphrase = ENV["UNICORN"]
+      UI.error("Passphrase not found in environment!") if passphrase.nil? || passphrase.empty?
+    else
+      UI.message("Getting encryption paraphrase from prompt:..")
+      passphrase = ENV["UNICORN"] || UI.password("Paraphrase to decrypt configs: ")
+    end
+
+    Dir.chdir("..") do
+      constant_path = "app/src/main/res/values/constant.xml"
+      sh("gpg --batch --yes --passphrase #{passphrase} --output \"#{constant_path}\" --decrypt \"Configurations/fake-unicorn.gpg\"", log: false)
+    end
+  end
+
+  def setup
+    decrypt_configurations
+  end
+
 end
