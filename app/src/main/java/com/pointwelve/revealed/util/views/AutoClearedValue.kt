@@ -1,4 +1,4 @@
-package com.pointwelve.revealed.util
+package com.pointwelve.revealed.util.views
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
