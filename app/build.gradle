@@ -50,6 +50,9 @@ android {
     apollo {
         generateKotlinModels.set(true) // or false for Java models
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 jacoco {
