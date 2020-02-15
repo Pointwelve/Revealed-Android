@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.authentication.storage.SecureCredentialsManager
 import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
@@ -18,7 +19,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val account: Auth0,
-                                        private val appExecutors: AppExecutors) : ViewModel() {
+                                        private val appExecutors: AppExecutors,
+                                        private val credentialsManager: SecureCredentialsManager) : ViewModel() {
     val authLiveData = MutableLiveData<Boolean>()
 
     fun login(activity: Activity) = viewModelScope.launch {
@@ -36,6 +38,7 @@ class MainViewModel @Inject constructor(private val account: Auth0,
 
             override fun onSuccess(credentials: Credentials) {
                 //succeeded!
+                credentialsManager.saveCredentials(credentials)
                 appExecutors.mainThread().execute { authLiveData.value = true }
 
             }

@@ -3,6 +3,9 @@ package com.pointwelve.revealed.di
 import android.app.Application
 import com.apollographql.apollo.ApolloClient
 import com.auth0.android.Auth0
+import com.auth0.android.authentication.AuthenticationAPIClient
+import com.auth0.android.authentication.storage.SecureCredentialsManager
+import com.auth0.android.authentication.storage.SharedPreferencesStorage
 import com.pointwelve.revealed.BuildConfig
 import com.pointwelve.revealed.R
 import dagger.Module
@@ -12,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module(includes = [ViewModelModule::class])
 class AppModule {
@@ -32,7 +36,17 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideOkHttp(app: Application): OkHttpClient {
+    fun provideSecurityCredentialsManager(app: Application, account: Auth0): SecureCredentialsManager {
+        return SecureCredentialsManager(
+            app,
+            AuthenticationAPIClient(account),
+            SharedPreferencesStorage(app)
+        )
+    }
+
+    @Singleton
+    @Provides
+    fun provideOkHttp(app: Application, secureCredentialsManager: SecureCredentialsManager): OkHttpClient {
         val client = OkHttpClient.Builder()
             .cache(Cache(app.cacheDir, CACHE_SIZE.toLong()))
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
@@ -42,6 +56,7 @@ class AppModule {
                 HttpLoggingInterceptor().setLevel(
                     if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE)
             )
+            .addInterceptor(AuthInterceptor(secureCredentialsManager))
 
         return client.build()
     }
@@ -49,11 +64,10 @@ class AppModule {
     @Singleton
     @Provides
     fun provideApolloClient(app: Application, okHttpClient: OkHttpClient): ApolloClient {
-        val apolloClient = ApolloClient.builder()
+
+        return ApolloClient.builder()
             .serverUrl(app.getString(R.string.graphql_host))
             .okHttpClient(okHttpClient)
             .build()
-
-        return apolloClient
     }
 }
