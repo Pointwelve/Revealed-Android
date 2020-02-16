@@ -1,4 +1,4 @@
-package com.pointwelve.revealed.util.views
+package com.pointwelve.revealed.ui.common
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.AsyncDifferConfig

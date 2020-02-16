@@ -18,7 +18,7 @@ class AuthInterceptor constructor(
         credentialsManager.getCredentials(object :
             BaseCallback<Credentials, CredentialsManagerException> {
             override fun onSuccess(payload: Credentials?) {
-                authToken = payload?.accessToken
+                authToken = payload?.idToken
             }
 
             override fun onFailure(error: CredentialsManagerException?) {

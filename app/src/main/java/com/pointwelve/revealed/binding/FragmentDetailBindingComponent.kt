@@ -1,4 +1,4 @@
-package com.pointwelve.revealed.util.views
+package com.pointwelve.revealed.binding
 
 import androidx.databinding.DataBindingComponent
 import androidx.fragment.app.Fragment
