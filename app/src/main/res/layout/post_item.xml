@@ -7,26 +7,139 @@
         <variable
             name="postDetail"
             type="com.pointwelve.revealed.graphql.fragment.PostDetail" />
+
+        <variable
+            name="createdAt"
+            type="String" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardUseCompatPadding="true">
-
-        <LinearLayout
+        app:contentPadding="@dimen/sub_margin"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="5dp"
+        android:layout_marginBottom="10dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
 
-            <TextView
-                android:id="@+id/textView"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.85" />
+
+            <TextView
+                android:id="@+id/subjectTextView"
+                style="@style/darkLarge16Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:padding="@dimen/sub_margin"
                 android:text="@{postDetail.subject}"
-                tools:text="Yigit Boyar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="@dimen/default_margin" />
-        </LinearLayout>
+                tools:text="Best tutorial for understanding dynamic programming" />
+
+            <TextView
+                android:id="@+id/authorTextView"
+                style="@style/graySmall12Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/sub_margin"
+                android:text="@{postDetail.author.username + `•` + `pointwelve`}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subjectTextView"
+                tools:text="println • Paypal/Eng" />
+
+            <TextView
+                android:id="@+id/contentTextView"
+                style="@style/grayLarge14Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/sub_margin"
+                android:maxLines="2"
+                android:text="@{postDetail.excerpt}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/authorTextView"
+                tools:text="We are looking for an outstanding Web Designer who is passionate about..." />
+
+            <TextView
+                android:id="@+id/tagTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/sub_margin"
+                android:background="@drawable/rounded_shape_button"
+                android:text="@{`#` + postDetail.tags.get(0).name}"
+                style="@style/grayMedium12Text"
+                tools:text="#Misc"
+                />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                style="@style/grayRegular14Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{createdAt}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tagTextView"
+                app:layout_constraintTop_toBottomOf="@id/contentTextView"
+                tools:text="54m" />
+
+            <Button
+                style="@style/grayMedium12Text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/commentTextView"
+                app:layout_constraintTop_toBottomOf="@id/contentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_icon_up"
+                android:drawablePadding="5dp"
+                android:minWidth="0dp"
+                android:text="@{`` + postDetail.postViewCount}"
+                tools:text="12" />
+
+            <Button
+                android:id="@+id/commentTextView"
+                style="@style/grayMedium12Text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/likeTextView"
+                app:layout_constraintTop_toBottomOf="@id/contentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="20dp"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_icon_comment"
+                android:drawablePadding="5dp"
+                android:minWidth="0dp"
+                android:text="@{`` + postDetail.totalCommentsCount}"
+                tools:text="200" />
+
+            <Button
+                android:id="@+id/likeTextView"
+                style="@style/grayMedium12Text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="@dimen/sub_margin"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/ic_icon_heart"
+                android:drawablePadding="5dp"
+                android:minWidth="0dp"
+                android:text="@{`` + postDetail.totalLikesCount}"
+                tools:text="12" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

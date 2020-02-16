@@ -65,13 +65,13 @@ class PostFragment : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         val adapter = PostAdapter(dataBindingComponent, appExecutors) {
                 post ->
             //TODO: Navigate to post detail
             Timber.d("Navigate to post detail with id ${post.id}")
         }
         this.adapter = adapter
+        binding.posts = postViewModel.posts
         binding.postsList.adapter = adapter
         postponeEnterTransition()
         binding.postsList.doOnPreDraw {

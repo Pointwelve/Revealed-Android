@@ -1,5 +1,6 @@
 package com.pointwelve.revealed.ui.post
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingComponent
@@ -10,6 +11,8 @@ import com.pointwelve.revealed.R
 import com.pointwelve.revealed.databinding.PostItemBinding
 import com.pointwelve.revealed.graphql.fragment.PostDetail
 import com.pointwelve.revealed.ui.common.DataBoundListAdapter
+import java.util.*
+
 
 class PostAdapter(
     private val dataBindingComponent: DataBindingComponent,
@@ -23,7 +26,8 @@ class PostAdapter(
         }
 
         override fun areContentsTheSame(oldItem: PostDetail, newItem: PostDetail): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.subject == newItem.subject &&
+                    oldItem.id == newItem.id
         }
     }
 ) {
@@ -48,6 +52,13 @@ class PostAdapter(
     }
 
     override fun bind(binding: PostItemBinding, item: PostDetail) {
+        val dateString = DateUtils.getRelativeTimeSpanString(
+            item.createdAt * 1000L,
+            Calendar.getInstance().timeInMillis,
+            0L,
+            DateUtils.FORMAT_ABBREV_ALL
+        )
+        binding.createdAt = dateString.toString()
         binding.postDetail = item
     }
 }

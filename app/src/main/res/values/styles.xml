@@ -8,4 +8,34 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="darkLarge16Text">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="grayLarge14Text">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#8D9093</item>
+    </style>
+
+    <style name="grayRegular14Text">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#8D9093</item>
+    </style>
+
+    <style name="graySmall12Text">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:textColor">#8D9093</item>
+    </style>
+
+    <style name="grayMedium12Text">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">#8D9093</item>
+    </style>
+
 </resources>

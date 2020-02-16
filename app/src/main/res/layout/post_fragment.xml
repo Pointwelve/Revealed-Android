@@ -6,14 +6,13 @@
     <data>
 
         <import type="com.pointwelve.revealed.graphql.fragment.PostDetail" />
-
         <import type="com.pointwelve.revealed.util.Resource" />
-
         <import type="androidx.lifecycle.LiveData"/>
+        <import type="java.util.List"/>
 
         <variable
-            name="post"
-            type="LiveData&lt;Resource&lt;PostDetail>>" />
+            name="posts"
+            type="LiveData&lt;Resource&lt;List&lt;PostDetail>>>" />
 
         <variable
             name="retryCallback"
@@ -30,10 +29,11 @@
             app:layoutManager="LinearLayoutManager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/main_margin"
+            android:layout_marginEnd="@dimen/main_margin"
+            android:layout_marginStart="@dimen/main_margin"
+            android:layout_marginTop="@dimen/main_margin"
+            android:background="@color/colorBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
 
         <include
             layout="@layout/loading_state"
-            app:resource="@{(Resource) post}"
+            app:resource="@{(Resource) posts}"
             app:callback="@{() -> retryCallback.retry()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
