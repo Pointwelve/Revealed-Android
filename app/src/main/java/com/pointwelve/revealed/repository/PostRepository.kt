@@ -29,14 +29,18 @@ class PostRepository @Inject constructor(
             .enqueue(object: ApolloCall.Callback<GetAllPostQuery.Data>() {
                 override fun onFailure(e: ApolloException) {
                     appExecutors.mainThread().execute {
-                        mediatorLiveData.value = Resource.error(e.message ?: "", null)
+                        mediatorLiveData.value = Resource.error(e.message ?: "Server Error", null)
                     }
                 }
 
                 override fun onResponse(response: Response<GetAllPostQuery.Data>) {
                     appExecutors.mainThread().execute {
-                        mediatorLiveData.value = Resource.success(response.data()
-                            ?.getAllPosts?.edges?.map { it.fragments.postDetail })
+                        if(response.hasErrors()) {
+                            mediatorLiveData.value = Resource.error("Server Error", null)
+                        } else {
+                            mediatorLiveData.value = Resource.success(response.data()
+                                ?.getAllPosts?.edges?.map { it.fragments.postDetail })
+                        }
                     }
                 }
             })

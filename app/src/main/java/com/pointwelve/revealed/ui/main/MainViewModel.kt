@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.authentication.storage.CredentialsManagerException
 import com.auth0.android.authentication.storage.SecureCredentialsManager
+import com.auth0.android.callback.BaseCallback
 import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
@@ -22,6 +24,23 @@ class MainViewModel @Inject constructor(private val account: Auth0,
                                         private val appExecutors: AppExecutors,
                                         private val credentialsManager: SecureCredentialsManager) : ViewModel() {
     val authLiveData = MutableLiveData<Boolean>()
+
+    init {
+        credentialsManager.getCredentials(object :
+            BaseCallback<Credentials, CredentialsManagerException> {
+            override fun onSuccess(payload: Credentials?) {
+                appExecutors.mainThread().execute {
+                    authLiveData.value = true
+                }
+            }
+
+            override fun onFailure(error: CredentialsManagerException?) {
+                appExecutors.mainThread().execute {
+                    authLiveData.value = false
+                }
+            }
+        })
+    }
 
     fun login(activity: Activity) = viewModelScope.launch {
         //Declare the callback that will receive the result
@@ -39,7 +58,6 @@ class MainViewModel @Inject constructor(private val account: Auth0,
             override fun onSuccess(credentials: Credentials) {
                 //succeeded!
                 credentialsManager.saveCredentials(credentials)
-                appExecutors.mainThread().execute { authLiveData.value = true }
 
             }
         }

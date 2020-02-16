@@ -6,9 +6,10 @@ import javax.inject.Inject
 
 class PostViewModel @Inject constructor(private val postRepository: PostRepository
 ) : ViewModel() {
-    fun retry() {
 
+    var posts = postRepository.loadPost(10, null)
+    fun retry() {
+        posts = postRepository.loadPost(10, null)
     }
 
-    val posts = postRepository.loadPost(10, null)
 }

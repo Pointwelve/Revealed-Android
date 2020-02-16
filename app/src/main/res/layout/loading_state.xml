@@ -36,6 +36,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_shape_button"
+            style="@style/grayLarge14Text"
             android:text="@string/retry"
             android:id="@+id/retry"
             android:onClick="@{() -> callback.retry()}"
