@@ -1,7 +1,9 @@
 package com.pointwelve.revealed.ui.post
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.switchMap
 import com.auth0.android.Auth0
 import com.auth0.android.Auth0Exception
 import com.auth0.android.authentication.storage.SecureCredentialsManager
@@ -16,10 +18,13 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
                                         private val account: Auth0,
                                         private val credentialsManager: SecureCredentialsManager
 ) : ViewModel() {
-
-    var posts = postRepository.loadPost(10, null)
+    private val _postTrigger: MutableLiveData<Unit> = MutableLiveData()
+    var posts = _postTrigger.switchMap {
+        // Initial launch
+        postRepository.loadPost(10, null)
+    }
     fun retry() {
-        posts = postRepository.loadPost(10, null)
+        _postTrigger.value = Unit
     }
 
     fun logout(context: Context) {

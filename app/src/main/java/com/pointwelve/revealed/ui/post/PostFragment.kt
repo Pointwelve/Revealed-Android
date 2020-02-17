@@ -42,6 +42,11 @@ class PostFragment : Fragment(), Injectable {
     var binding by autoCleared<PostFragmentBinding>()
     private var adapter by autoCleared<PostAdapter>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,6 +98,8 @@ class PostFragment : Fragment(), Injectable {
     }
 
     private fun initPostList(viewModel: PostViewModel) {
+        viewModel.retry()
+
         viewModel.posts.observe(viewLifecycleOwner, Observer { listResource ->
             if (listResource?.data != null) {
                 adapter.submitList(listResource.data)

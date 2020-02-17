@@ -3,4 +3,10 @@
     <string name="btn_login">Login</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="post_menu">Post</string>
+    <string name="notification_menu">Notification</string>
+    <string name="cd_post">Post</string>
+    <string name="cd_notification">Notification</string>
+    <string name="cd_setting">Setting</string>
+    <string name="menu_setting">Setting</string>
 </resources>
