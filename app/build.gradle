@@ -66,6 +66,7 @@ dependencies {
     implementation deps.material
     implementation deps.core_ktx
     implementation deps.transition
+    implementation deps.navigation.ui_ktx
     implementation deps.navigation.fragment_ktx
     implementation deps.room.runtime
     implementation deps.lifecycle.livedata_ktx

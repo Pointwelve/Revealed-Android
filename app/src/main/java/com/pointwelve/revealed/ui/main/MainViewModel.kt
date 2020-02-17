@@ -58,6 +58,9 @@ class MainViewModel @Inject constructor(private val account: Auth0,
             override fun onSuccess(credentials: Credentials) {
                 //succeeded!
                 credentialsManager.saveCredentials(credentials)
+                appExecutors.mainThread().execute {
+                    authLiveData.value = true
+                }
 
             }
         }

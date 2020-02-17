@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/sub_margin"
-                android:text="@{postDetail.author.username + `\\u2022` + `pointwelve`}"
+                android:text="@{postDetail.author.username + `.` + `pointwelve`}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subjectTextView"
                 tools:text="println • Paypal/Eng" />

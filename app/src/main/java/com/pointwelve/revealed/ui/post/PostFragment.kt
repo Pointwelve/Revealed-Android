@@ -4,6 +4,7 @@ package com.pointwelve.revealed.ui.post
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
@@ -79,6 +80,16 @@ class PostFragment : Fragment(), Injectable {
         }
         initPostList(postViewModel)
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logOut -> {
+                postViewModel.logout(this.requireContext())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun initPostList(viewModel: PostViewModel) {

@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Revealed</string>
-    <string name="com_auth0_client_id">L48ejSDdYBm4thvCp1on5RZEmB4xVEeZ</string>
-    <string name="com_auth0_domain">pointwelve.au.auth0.com</string>
     <string name="btn_login">Login</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown Error</string>
