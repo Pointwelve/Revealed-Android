@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -22,14 +24,19 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.main_activity)
 
         val navController = findNavController(R.id.root_host_fragment)
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration.Builder(setOf(R.id.mainFragment,
+            R.id.postFragment)).build()
+        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
+    override fun onSupportNavigateUp() =
+        findNavController(R.id.root_host_fragment).navigateUp()
 
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 }

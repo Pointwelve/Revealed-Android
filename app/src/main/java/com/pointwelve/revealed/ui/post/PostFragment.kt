@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.pointwelve.revealed.AppExecutors
 
@@ -22,6 +23,7 @@ import com.pointwelve.revealed.di.Injectable
 import com.pointwelve.revealed.ui.common.RetryCallback
 import com.pointwelve.revealed.binding.FragmentDataBindingComponent
 import com.pointwelve.revealed.util.views.autoCleared
+import kotlinx.android.synthetic.main.post_fragment.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -84,7 +86,9 @@ class PostFragment : Fragment(), Injectable {
             startPostponedEnterTransition()
         }
         initPostList(postViewModel)
-
+        createPostButton.setOnClickListener {
+            findNavController().navigate(R.id.action_postFragment_to_createPostFragment)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

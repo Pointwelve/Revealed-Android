@@ -1,5 +1,6 @@
 package com.pointwelve.revealed.di
 
+import com.pointwelve.revealed.ui.create_post.CreatePostFragment
 import com.pointwelve.revealed.ui.main.MainFragment
 import com.pointwelve.revealed.ui.post.PostFragment
 import dagger.Module
@@ -12,5 +13,8 @@ abstract class FragmentBuildersModule {
     abstract fun contributeMainFragment(): MainFragment
 
     @ContributesAndroidInjector
-    abstract fun contributePainFragment(): PostFragment
+    abstract fun contributePostFragment(): PostFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeCreatePostFragment(): CreatePostFragment
 }

@@ -23,10 +23,6 @@ class MainFragment : Fragment(), Injectable {
         viewModelFactory
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +38,7 @@ class MainFragment : Fragment(), Injectable {
 
         mainViewModel.authLiveData.observe(viewLifecycleOwner, Observer { isLoggedIn ->
             if(isLoggedIn) {
-                findNavController().navigate(R.id.action_mainFragment_to_postFragment)
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToPostFragment())
             }
         })
     }

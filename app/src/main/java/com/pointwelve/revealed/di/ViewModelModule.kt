@@ -3,6 +3,7 @@ package com.pointwelve.revealed.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.pointwelve.revealed.RevealedViewModelFactory
+import com.pointwelve.revealed.ui.create_post.CreatePostViewModel
 import com.pointwelve.revealed.ui.main.MainViewModel
 import com.pointwelve.revealed.ui.post.PostViewModel
 
@@ -22,6 +23,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PostViewModel::class)
     abstract fun bindPostViewModel(postViewModel: PostViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreatePostViewModel::class)
+    abstract fun bindCreatePostViewModel(createPostViewModel: CreatePostViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: RevealedViewModelFactory): ViewModelProvider.Factory
