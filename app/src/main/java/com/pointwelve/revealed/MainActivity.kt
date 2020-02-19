@@ -26,8 +26,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         val navController = findNavController(R.id.root_host_fragment)
         val appBarConfiguration = AppBarConfiguration.Builder(setOf(R.id.mainFragment,
             R.id.postFragment)).build()
-        NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration)
-
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
