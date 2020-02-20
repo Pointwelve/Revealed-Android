@@ -2,6 +2,7 @@ package com.pointwelve.revealed
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -27,6 +28,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         val appBarConfiguration = AppBarConfiguration.Builder(setOf(R.id.mainFragment,
             R.id.postFragment)).build()
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.mainFragment -> bottomNav.visibility = View.VISIBLE
+                R.id.postFragment -> bottomNav.visibility = View.VISIBLE
+                else -> bottomNav.visibility = View.GONE
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
