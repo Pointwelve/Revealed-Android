@@ -62,7 +62,8 @@
             android:hint="@string/create_post_subject"
             >
             <com.google.android.material.textfield.TextInputEditText
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:background="@android:color/transparent"
                 android:id="@+id/subjectInputEditText"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
@@ -84,26 +85,29 @@
                 android:id="@+id/contentInputEditText"
                 android:minLines="2"
                 android:maxLines="4"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:id="@+id/tagInputLayout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tagTextView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/contentInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/main_margin"
-            android:hint="@string/create_post_tags"
-            >
-            <AutoCompleteTextView
-                android:id="@+id/tagInputEditText"
-                android:editable="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text="Choose Tags:"
+            app:layout_constraintTop_toBottomOf="@id/contentInputLayout"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/main_margin"
+            style="@style/Widget.MaterialComponents.ChipGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tagTextView" />
 
         <ProgressBar
             android:id="@+id/progressBar"

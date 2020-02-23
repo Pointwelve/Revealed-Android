@@ -33,5 +33,10 @@
         android:id="@+id/createPostFragment"
         android:name="com.pointwelve.revealed.ui.create_post.CreatePostFragment"
         tools:layout="@layout/create_post_fragment"
-        android:label="CreatePostFragment" />
+        android:label="CreatePostFragment" >
+        <action
+            android:id="@+id/action_createPostFragment_pop"
+            app:popUpTo="@id/createPostFragment"
+            app:popUpToInclusive="true" />
+    </dialog>
 </navigation>

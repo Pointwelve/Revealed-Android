@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#235DE3</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorBackground">#F1F3F6</color>
+    <color name="chipIconTint">#595959</color>
 </resources>

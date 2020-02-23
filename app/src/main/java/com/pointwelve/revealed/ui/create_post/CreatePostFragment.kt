@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AlertDialog
+import androidx.core.view.children
 import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.pointwelve.revealed.R
 import com.pointwelve.revealed.databinding.CreatePostFragmentBinding
 import com.pointwelve.revealed.di.Injectable
@@ -20,7 +23,6 @@ import com.pointwelve.revealed.util.views.autoCleared
 import kotlinx.android.synthetic.main.create_post_fragment.*
 import javax.inject.Inject
 
-
 class CreatePostFragment : DialogFragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -28,6 +30,8 @@ class CreatePostFragment : DialogFragment(), Injectable {
     private val createPostViewModel: CreatePostViewModel by viewModels {
         viewModelFactory
     }
+
+    private val topicTitleToIdMap = mutableMapOf<String, String>()
 
     var binding by autoCleared<CreatePostFragmentBinding>()
 
@@ -44,25 +48,28 @@ class CreatePostFragment : DialogFragment(), Injectable {
         createPostViewModel.configs.observe(viewLifecycleOwner, Observer { data ->
             progressBar.isGone = data.status != Status.LOADING
             if(data.status == Status.SUCCESS) {
-                val topics = data.data?.getAllTopics?.edges.orEmpty().map { it.name }
-                val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_menu_popup_item, topics)
-                topicDropdown.setAdapter(adapter)
+                // Topics
+                val topics = data.data?.getAllTopics?.edges
+                    .orEmpty()
+                    .onEach { topicTitleToIdMap[it.name] = it.id }
+                    .map { it.name }
 
-                val tags = data.data?.getAllTags?.edges.orEmpty().map { it.name }.toTypedArray()
-                val checked = tags.map { false }.toBooleanArray()
+                val topicAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_menu_popup_item, topics)
+                topicDropdown.setAdapter(topicAdapter)
 
-                tagInputEditText.setOnClickListener {
-                    val builder = AlertDialog.Builder(requireContext())
-                        .setTitle("Select Tags")
-                        .setMultiChoiceItems(tags, checked) { dialog, which, isChecked ->
-
-                        }
-                        .setPositiveButton("OK") { dialog, which ->
-                        }.setNegativeButton("Cancel", null)
-                        .create()
-
-                    builder.show()
+                // Tags
+                data.data?.getAllTags?.edges.orEmpty().forEach {
+                    addChipToGroup(it.name, it.id, chipGroup)
                 }
+            }
+        })
+
+        createPostViewModel.createPostResults.observe(viewLifecycleOwner, Observer { data ->
+            progressBar.isGone = data.status != Status.LOADING
+            if(data.status == Status.SUCCESS) {
+                findNavController().navigate(R.id.action_createPostFragment_pop)
+            } else {
+                //TODO: Show Error
             }
         })
 
@@ -87,11 +94,30 @@ class CreatePostFragment : DialogFragment(), Injectable {
 
     private fun initMenu() {
         toolbar.inflateMenu(R.menu.menu_create_post)
-        toolbar.setNavigationOnClickListener { dismiss() }
+        toolbar.setNavigationOnClickListener { findNavController().navigate(R.id.action_createPostFragment_pop) }
         toolbar.setOnMenuItemClickListener {
-            dismiss()
+            validateAndCreatePost()
             true
         }
     }
+
+    private fun addChipToGroup(tagName: String, tagId: String, chipGroup: ChipGroup) {
+        val chip = Chip(requireContext())
+        chip.tag = tagId
+        chip.isCheckable = true
+        chip.text = tagName
+        chipGroup.addView(chip as View)
+    }
+
+    private fun validateAndCreatePost() {
+        val tagIds = chipGroup.children.map { it as Chip }
+            .filter { it.isChecked }.map { it.tag as String }.toList()
+
+        val selectedTopic = topicTitleToIdMap[topicDropdown.text.toString()] ?: ""
+        val subject = subjectInputEditText.text.toString()
+        val content = contentInputEditText.text.toString()
+        createPostViewModel.createPost(subject, content, selectedTopic, tagIds)
+    }
+
 
 }

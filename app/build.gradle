@@ -19,7 +19,7 @@ android {
         applicationId "com.pointwelve.revealed"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 3
+        versionCode 4
         versionName "1.0"
 
         manifestPlaceholders = [auth0Domain: "pointwelve.au.auth0.com", auth0Scheme: "com.pointwelve.revealed"]
