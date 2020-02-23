@@ -9,4 +9,9 @@
     <string name="cd_notification">Notification</string>
     <string name="cd_setting">Setting</string>
     <string name="menu_setting">Setting</string>
+    <string name="menu_save">save</string>
+    <string name="create_post_topics">Topics</string>
+    <string name="create_post_subject">Subject</string>
+    <string name="create_post_content">Content</string>
+    <string name="create_post_tags">Tags</string>
 </resources>

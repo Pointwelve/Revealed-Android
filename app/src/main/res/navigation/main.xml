@@ -29,7 +29,7 @@
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/createPostFragment"
         android:name="com.pointwelve.revealed.ui.create_post.CreatePostFragment"
         tools:layout="@layout/create_post_fragment"
