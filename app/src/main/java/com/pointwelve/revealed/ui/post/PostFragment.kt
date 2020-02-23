@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.pointwelve.revealed.AppExecutors
@@ -89,6 +90,10 @@ class PostFragment : Fragment(), Injectable {
         createPostButton.setOnClickListener {
             findNavController().navigate(R.id.action_postFragment_to_createPostFragment)
         }
+
+        PostState.postState.observe(viewLifecycleOwner , Observer { postDetail ->
+            postViewModel.retry()
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

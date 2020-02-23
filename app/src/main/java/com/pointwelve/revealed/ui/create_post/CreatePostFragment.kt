@@ -18,6 +18,7 @@ import com.google.android.material.chip.ChipGroup
 import com.pointwelve.revealed.R
 import com.pointwelve.revealed.databinding.CreatePostFragmentBinding
 import com.pointwelve.revealed.di.Injectable
+import com.pointwelve.revealed.ui.post.PostState
 import com.pointwelve.revealed.util.Status
 import com.pointwelve.revealed.util.views.autoCleared
 import kotlinx.android.synthetic.main.create_post_fragment.*
@@ -67,7 +68,8 @@ class CreatePostFragment : DialogFragment(), Injectable {
         createPostViewModel.createPostResults.observe(viewLifecycleOwner, Observer { data ->
             progressBar.isGone = data.status != Status.LOADING
             if(data.status == Status.SUCCESS) {
-                findNavController().navigate(R.id.action_createPostFragment_pop)
+                PostState.postState.value = data.data
+                findNavController().navigateUp()
             } else {
                 //TODO: Show Error
             }
@@ -94,7 +96,7 @@ class CreatePostFragment : DialogFragment(), Injectable {
 
     private fun initMenu() {
         toolbar.inflateMenu(R.menu.menu_create_post)
-        toolbar.setNavigationOnClickListener { findNavController().navigate(R.id.action_createPostFragment_pop) }
+        toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         toolbar.setOnMenuItemClickListener {
             validateAndCreatePost()
             true
