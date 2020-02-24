@@ -2,7 +2,6 @@ package com.pointwelve.revealed.ui.post
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -10,19 +9,19 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionInflater
 import com.pointwelve.revealed.AppExecutors
-
+import com.pointwelve.revealed.Constants
 import com.pointwelve.revealed.R
+import com.pointwelve.revealed.binding.FragmentDataBindingComponent
 import com.pointwelve.revealed.databinding.PostFragmentBinding
 import com.pointwelve.revealed.di.Injectable
 import com.pointwelve.revealed.ui.common.RetryCallback
-import com.pointwelve.revealed.binding.FragmentDataBindingComponent
 import com.pointwelve.revealed.util.views.autoCleared
 import kotlinx.android.synthetic.main.post_fragment.*
 import timber.log.Timber
@@ -40,7 +39,7 @@ class PostFragment : Fragment(), Injectable {
         viewModelFactory
     }
 
-    var dataBindingComponent: DataBindingComponent =
+    private var dataBindingComponent: DataBindingComponent =
         FragmentDataBindingComponent(this)
     var binding by autoCleared<PostFragmentBinding>()
     private var adapter by autoCleared<PostAdapter>()
@@ -91,9 +90,12 @@ class PostFragment : Fragment(), Injectable {
             findNavController().navigate(R.id.action_postFragment_to_createPostFragment)
         }
 
-        PostState.postState.observe(viewLifecycleOwner , Observer { postDetail ->
-            postViewModel.retry()
-        })
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(Constants.postCreatedKey)?.observe(
+            viewLifecycleOwner , Observer { result ->
+                if(result) {
+                    postViewModel.retry()
+                }
+            })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
