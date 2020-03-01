@@ -8,6 +8,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.pointwelve.revealed.AppExecutors
 import com.pointwelve.revealed.graphql.PostSignupMutation
+import com.pointwelve.revealed.graphql.fragment.UserDetail
 import com.pointwelve.revealed.graphql.type.PostSignupInput
 import com.pointwelve.revealed.util.Resource
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class AuthRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val apolloClient: ApolloClient
 ) {
-    fun postSignup(input: PostSignupInput): LiveData<Resource<PostSignupMutation.User>> {
-        val mediatorLiveData = MutableLiveData<Resource<PostSignupMutation.User>>()
+    fun postSignup(input: PostSignupInput): LiveData<Resource<UserDetail>> {
+        val mediatorLiveData = MutableLiveData<Resource<UserDetail>>()
         mediatorLiveData.value = Resource.loading(null)
 
         val mutation = PostSignupMutation(input)
@@ -37,7 +38,7 @@ class AuthRepository @Inject constructor(
                         if(response.hasErrors()) {
                             mediatorLiveData.value = Resource.error("Server Error", null)
                         } else {
-                            mediatorLiveData.value = Resource.success(response.data()?.postSignup?.user)
+                            mediatorLiveData.value = Resource.success(response.data()?.postSignup?.user?.fragments?.userDetail)
                         }
                     }
                 }

@@ -4,17 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".ui.getStarted.GetStartedFragment">
     <data>
-
-        <import type="com.pointwelve.revealed.util.Resource" />
-        <import type="androidx.lifecycle.LiveData"/>
-
-        <variable
-            name="username"
-            type="LiveData&lt;Resource&lt;String>>" />
-
-        <variable
-            name="retryCallback"
-            type="com.pointwelve.revealed.ui.common.RetryCallback" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,11 +40,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/usernameLayout"/>
 
-        <include
-            layout="@layout/loading_state"
-            app:showShouldRetry="@{true}"
-            app:resource="@{(Resource) username}"
-            app:callback="@{() -> retryCallback.retry()}"
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,8 +53,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

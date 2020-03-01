@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingComponent
+import androidx.core.view.isGone
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,11 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.pointwelve.revealed.R
-import com.pointwelve.revealed.binding.FragmentDataBindingComponent
 import com.pointwelve.revealed.databinding.GetStartedFragmentBinding
 import com.pointwelve.revealed.di.Injectable
-import com.pointwelve.revealed.ui.common.RetryCallback
-import com.pointwelve.revealed.ui.main.MainFragmentDirections
 import com.pointwelve.revealed.util.Status
 import com.pointwelve.revealed.util.views.autoCleared
 import kotlinx.android.synthetic.main.get_started_fragment.*
@@ -31,9 +28,6 @@ class GetStartedFragment : Fragment(), Injectable {
         viewModelFactory
     }
 
-    private var dataBindingComponent: DataBindingComponent =
-        FragmentDataBindingComponent(this)
-
     var binding by autoCleared<GetStartedFragmentBinding>()
 
     override fun onCreateView(
@@ -47,11 +41,6 @@ class GetStartedFragment : Fragment(), Injectable {
             container,
             false
         )
-        dataBinding.retryCallback = object : RetryCallback {
-            override fun retry() {
-
-            }
-        }
         binding = dataBinding
         return dataBinding.root
     }
@@ -60,13 +49,13 @@ class GetStartedFragment : Fragment(), Injectable {
         super.onViewCreated(view, savedInstanceState)
 
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.username = getStartedViewModel.username
 
         btnSignUp.setOnClickListener {
             getStartedViewModel.signupUser(usernameEditText.text.toString())
         }
 
-        getStartedViewModel.username.observe(viewLifecycleOwner, Observer { resources ->
+        getStartedViewModel.user.observe(viewLifecycleOwner, Observer { resources ->
+            progressBar.isGone = resources.status != Status.LOADING
             if(resources.status == Status.SUCCESS) {
                 findNavController().navigate(GetStartedFragmentDirections.actionMainFragmentToPostFragment())
             }
