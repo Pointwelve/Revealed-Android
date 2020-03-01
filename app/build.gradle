@@ -88,6 +88,7 @@ dependencies {
 
     implementation deps.apollo.runtime
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     compileOnly deps.jetbrains_annotations
     testCompileOnly deps.jetbrains_annotations
 

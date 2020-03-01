@@ -1,11 +1,10 @@
-package com.pointwelve.revealed.ui.create_post
+package com.pointwelve.revealed.ui.createPost
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import com.pointwelve.revealed.graphql.GetAllConfigsQuery
-import com.pointwelve.revealed.graphql.fragment.PostDetail
 import com.pointwelve.revealed.graphql.type.PostInput
 import com.pointwelve.revealed.repository.ConfigRepository
 import com.pointwelve.revealed.repository.PostRepository

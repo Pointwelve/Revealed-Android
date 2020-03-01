@@ -10,10 +10,23 @@
         tools:layout="@layout/main_fragment"
         android:label="MainFragment">
         <action
+            android:id="@+id/action_mainFragment_to_getStartedFragment"
+            app:destination="@id/getStartedFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/getStartedFragment"
+        android:name="com.pointwelve.revealed.ui.getStarted.GetStartedFragment"
+        tools:layout="@layout/get_started_fragment"
+        android:label="GetStartedFragment">
+        <action
             android:id="@+id/action_mainFragment_to_postFragment"
             app:destination="@id/postFragment"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/mainFragment"
+            app:popUpTo="@+id/getStartedFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -31,7 +44,7 @@
 
     <dialog
         android:id="@+id/createPostFragment"
-        android:name="com.pointwelve.revealed.ui.create_post.CreatePostFragment"
+        android:name="com.pointwelve.revealed.ui.createPost.CreatePostFragment"
         tools:layout="@layout/create_post_fragment"
         android:label="CreatePostFragment" >
         <action

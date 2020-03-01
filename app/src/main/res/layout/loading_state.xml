@@ -15,6 +15,11 @@
         <variable
             name="callback"
             type="com.pointwelve.revealed.ui.common.RetryCallback" />
+
+        <variable
+            name="showShouldRetry"
+            type="boolean" />
+
     </data>
 
     <LinearLayout
@@ -41,7 +46,7 @@
             android:text="@string/retry"
             android:id="@+id/retry"
             android:onClick="@{() -> callback.retry()}"
-            app:visibleGone="@{resource.status == Status.ERROR}" />
+            app:visibleGone="@{resource.status == Status.ERROR &amp;&amp; !showShouldRetry}" />
 
         <TextView
             android:layout_width="wrap_content"

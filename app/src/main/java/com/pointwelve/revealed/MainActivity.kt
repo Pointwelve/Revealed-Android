@@ -25,8 +25,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         setContentView(R.layout.main_activity)
 
         val navController = findNavController(R.id.root_host_fragment)
-        val appBarConfiguration = AppBarConfiguration.Builder(setOf(R.id.mainFragment,
-            R.id.postFragment)).build()
+        val appBarConfiguration = AppBarConfiguration.Builder(setOf(
+            R.id.mainFragment,
+            R.id.postFragment,
+            R.id.getStartedFragment)).build()
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {

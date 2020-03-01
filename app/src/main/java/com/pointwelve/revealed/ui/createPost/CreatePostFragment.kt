@@ -1,4 +1,4 @@
-package com.pointwelve.revealed.ui.create_post
+package com.pointwelve.revealed.ui.createPost
 
 import android.os.Bundle
 import android.view.LayoutInflater

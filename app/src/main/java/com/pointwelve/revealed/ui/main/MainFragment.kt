@@ -38,7 +38,7 @@ class MainFragment : Fragment(), Injectable {
 
         mainViewModel.authLiveData.observe(viewLifecycleOwner, Observer { isLoggedIn ->
             if(isLoggedIn) {
-                findNavController().navigate(MainFragmentDirections.actionMainFragmentToPostFragment())
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToGetStartedFragment())
             }
         })
     }
