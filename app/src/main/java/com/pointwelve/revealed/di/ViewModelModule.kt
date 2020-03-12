@@ -7,6 +7,7 @@ import com.pointwelve.revealed.ui.createPost.CreatePostViewModel
 import com.pointwelve.revealed.ui.getStarted.GetStartedViewModel
 import com.pointwelve.revealed.ui.main.MainViewModel
 import com.pointwelve.revealed.ui.post.PostViewModel
+import com.pointwelve.revealed.ui.post.detail.PostDetailViewModel
 
 import dagger.Binds
 import dagger.Module
@@ -34,6 +35,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(GetStartedViewModel::class)
     abstract fun bindGetStartedViewModel(getStartedViewModel: GetStartedViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostDetailViewModel::class)
+    abstract fun bindPostDetailViewModel(postDetailViewModel: PostDetailViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: RevealedViewModelFactory): ViewModelProvider.Factory

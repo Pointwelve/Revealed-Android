@@ -40,6 +40,12 @@
             app:destination="@id/createPostFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+
+        <action
+            android:id="@+id/action_postFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <dialog
@@ -52,4 +58,12 @@
             app:popUpTo="@id/createPostFragment"
             app:popUpToInclusive="true" />
     </dialog>
+
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.pointwelve.revealed.ui.post.detail.PostDetailFragment"
+        tools:layout="@layout/post_detail_fragment"
+        android:label="PostDetailFragment" >
+
+    </fragment>
 </navigation>

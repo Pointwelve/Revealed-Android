@@ -75,8 +75,7 @@ class PostFragment : Fragment(), Injectable {
         binding.lifecycleOwner = viewLifecycleOwner
         val adapter = PostAdapter(dataBindingComponent, appExecutors) {
                 post ->
-            //TODO: Navigate to post detail
-            Timber.d("Navigate to post detail with id ${post.id}")
+            findNavController().navigate(R.id.action_postFragment_to_postDetailFragment)
         }
         this.adapter = adapter
         binding.posts = postViewModel.posts
