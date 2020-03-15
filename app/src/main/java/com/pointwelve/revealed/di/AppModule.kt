@@ -2,6 +2,10 @@ package com.pointwelve.revealed.di
 
 import android.app.Application
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.cache.http.ApolloHttpCache
+import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore
+import com.apollographql.apollo.cache.normalized.lru.EvictionPolicy
+import com.apollographql.apollo.cache.normalized.lru.LruNormalizedCacheFactory
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.storage.SecureCredentialsManager
@@ -13,6 +17,7 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.File
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -23,7 +28,8 @@ class AppModule {
         const val CONNECT_TIMEOUT = 30L
         const val WRITE_TIMEOUT = 30L
         const val READ_TIMEOUT = 30L
-        const val CACHE_SIZE = 10 * 1024 * 1024 // 10MB
+        const val HTTP_CACHE_SIZE = 10 * 1024 * 1024 // 10 MB
+        const val IN_MEMORY_CACHE_SIZE = 1024 * 1024 // 1 MB
     }
 
     @Singleton
@@ -48,7 +54,7 @@ class AppModule {
     @Provides
     fun provideOkHttp(app: Application, secureCredentialsManager: SecureCredentialsManager): OkHttpClient {
         val client = OkHttpClient.Builder()
-            .cache(Cache(app.cacheDir, CACHE_SIZE.toLong()))
+            .cache(Cache(app.cacheDir, HTTP_CACHE_SIZE.toLong()))
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
@@ -65,8 +71,14 @@ class AppModule {
     @Provides
     fun provideApolloClient(app: Application, okHttpClient: OkHttpClient): ApolloClient {
 
+        val inMemoryCache =
+            LruNormalizedCacheFactory(EvictionPolicy.builder()
+                .maxSizeBytes((IN_MEMORY_CACHE_SIZE).toLong())
+                .build())
+
         return ApolloClient.builder()
             .serverUrl(app.getString(R.string.graphql_host))
+            .normalizedCache(inMemoryCache)
             .okHttpClient(okHttpClient)
             .build()
     }

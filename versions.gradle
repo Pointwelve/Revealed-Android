@@ -64,7 +64,7 @@ versions.timber = "4.7.1"
 versions.transition = "1.3.0"
 versions.work = "2.2.0"
 versions.auth0="1.22.0"
-versions.apollo="1.3.1"
+versions.apollo="1.3.3"
 versions.jetbrains_annotations="13.0"
 ext.versions = versions
 
@@ -221,6 +221,7 @@ deps.auth0 = "com.auth0.android:auth0:$versions.auth0"
 def apollo = [:]
 apollo.plugin = "com.apollographql.apollo:apollo-gradle-plugin:$versions.apollo"
 apollo.runtime = "com.apollographql.apollo:apollo-runtime:$versions.apollo"
+apollo.http_cache = "com.apollographql.apollo:apollo-http-cache:$versions.apollo"
 deps.apollo = apollo
 
 deps.jetbrains_annotations = "org.jetbrains:annotations:$versions.jetbrains_annotations"

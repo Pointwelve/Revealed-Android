@@ -6,10 +6,12 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.api.cache.http.HttpCachePolicy
 import com.apollographql.apollo.exception.ApolloException
 import com.pointwelve.revealed.AppExecutors
 import com.pointwelve.revealed.graphql.CreatePostMutation
 import com.pointwelve.revealed.graphql.GetAllPostQuery
+import com.pointwelve.revealed.graphql.GetPostQuery
 import com.pointwelve.revealed.graphql.fragment.PostDetail
 import com.pointwelve.revealed.graphql.type.PostInput
 import com.pointwelve.revealed.util.Resource
@@ -21,7 +23,7 @@ class PostRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val apolloClient: ApolloClient
 ) {
-    fun loadPost(first: Int?, commentFirst: String?): LiveData<Resource<List<PostDetail>>> {
+    fun listPosts(first: Int?, commentFirst: String?): LiveData<Resource<List<PostDetail>>> {
         val mediatorLiveData = MutableLiveData<Resource<List<PostDetail>>>()
         mediatorLiveData.value = Resource.loading(null)
 
@@ -71,6 +73,36 @@ class PostRepository @Inject constructor(
                             mediatorLiveData.value = Resource.error("Server Error", null)
                         } else {
                             mediatorLiveData.value = Resource.success(response.data()?.createPost?.fragments?.postDetail)
+                        }
+                    }
+                }
+            })
+
+        return mediatorLiveData
+    }
+
+    fun getPost(postId: String): LiveData<Resource<PostDetail>> {
+
+        val mediatorLiveData = MutableLiveData<Resource<PostDetail>>()
+        mediatorLiveData.value = Resource.loading(null)
+
+        var query = GetPostQuery(postId)
+
+        apolloClient.query(query)
+            .httpCachePolicy(HttpCachePolicy.CACHE_FIRST)
+            .enqueue(object: ApolloCall.Callback<GetPostQuery.Data>() {
+                override fun onFailure(e: ApolloException) {
+                    appExecutors.mainThread().execute {
+                        mediatorLiveData.value = Resource.error(e.message ?: "Server Error", null)
+                    }
+                }
+
+                override fun onResponse(response: Response<GetPostQuery.Data>) {
+                    appExecutors.mainThread().execute {
+                        if(response.hasErrors()) {
+                            mediatorLiveData.value = Resource.error("Server Error", null)
+                        } else {
+                            mediatorLiveData.value = Resource.success(response.data()?.getPost?.fragments?.postDetail)
                         }
                     }
                 }

@@ -21,7 +21,7 @@ class PostViewModel @Inject constructor(private val postRepository: PostReposito
     private val _postTrigger: MutableLiveData<Unit> = MutableLiveData()
     var posts = _postTrigger.switchMap {
         // Initial launch
-        postRepository.loadPost(10, null)
+        postRepository.listPosts(10, null)
     }
     fun retry() {
         _postTrigger.value = Unit

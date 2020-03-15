@@ -64,6 +64,9 @@
         android:name="com.pointwelve.revealed.ui.post.detail.PostDetailFragment"
         tools:layout="@layout/post_detail_fragment"
         android:label="PostDetailFragment" >
-
+        <argument
+            android:name="postId"
+            app:argType="string"
+            android:defaultValue="null" />
     </fragment>
 </navigation>

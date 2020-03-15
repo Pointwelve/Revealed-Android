@@ -87,6 +87,7 @@ dependencies {
     implementation deps.auth0
 
     implementation deps.apollo.runtime
+    implementation deps.apollo.http_cache
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     compileOnly deps.jetbrains_annotations

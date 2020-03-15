@@ -21,9 +21,6 @@ fragment PostDetail on Post {
 
 fragment UserDetail on User {
     username
-    organization {
-      name
-    }
 }
 
 fragment CommentDetail on Comment {

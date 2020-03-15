@@ -24,7 +24,6 @@ import com.pointwelve.revealed.di.Injectable
 import com.pointwelve.revealed.ui.common.RetryCallback
 import com.pointwelve.revealed.util.views.autoCleared
 import kotlinx.android.synthetic.main.post_fragment.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class PostFragment : Fragment(), Injectable {
@@ -75,7 +74,8 @@ class PostFragment : Fragment(), Injectable {
         binding.lifecycleOwner = viewLifecycleOwner
         val adapter = PostAdapter(dataBindingComponent, appExecutors) {
                 post ->
-            findNavController().navigate(R.id.action_postFragment_to_postDetailFragment)
+            val action = PostFragmentDirections.actionPostFragmentToPostDetailFragment(post.id)
+            findNavController().navigate(action)
         }
         this.adapter = adapter
         binding.posts = postViewModel.posts
